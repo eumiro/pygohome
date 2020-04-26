@@ -1,37 +1,27 @@
-## Welcome to GitHub Pages
+# pygohome
 
-You can use the [editor on GitHub](https://github.com/eumiro/pygohome/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Python, Let's Go Home. Quickly.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+**pygohome** is a 100% personal route optimizer in a known environment based on experience.
 
-### Markdown
+You walk/ride/drive frequently between known locations (home, work, school, shops, family, friends, …) using different routes, but would like to know *the optimal route*, that should take *you* the less time possible? *pygohome* uses your recorded GPS tracks to build a route network of *your* world with estimation on how long *you* need to get from A to B using the mean of transport of your choice.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## How it works
 
-```markdown
-Syntax highlighted code block
+### You track all your trips
 
-# Header 1
-## Header 2
-### Header 3
+A simple GPS track with 1 or 2 seconds interval works well. Just walk/ride/drive as you are used to, stop at lights, don't speed. You may start tracking before you leave and stop it after you arrive.
 
-- Bulleted
-- List
+### You identify your points of interest (and crossroads)
 
-1. Numbered
-2. List
+*pygohome* does not use any map data, so you'll have to help it. First, you identify all points of interest (home, work, school, shop, family, friends, pub, club, beach, …) and name them.
 
-**Bold** and _Italic_ and `Code` text
+In the current version, you'll also have to identify all forks and crossroads where your individual GPS tracks cross, split, or join.
 
-[Link](url) and ![Image](src)
-```
+### You let *pygohome* build your world
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+It will build a route network with your nodes (named POIs and identified intersections) and edges (automatically generated lists of timedeltas you needed to get between the nodes).
 
-### Jekyll Themes
+### You can find the fastest route from A to B
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/eumiro/pygohome/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+You can choose anywhere between “I'm feeling lucky” (i.e. Sunday 7am, sunny) and “I'd like to make sure I get there in time” (i.e. Friday 5pm, blizzard).
