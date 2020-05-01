@@ -4,7 +4,7 @@
 
 **pygohome** is a 100% personal route optimizer in a known environment based on experience.
 
-You walk/ride/drive frequently between known locations (home, work, school, shops, family, friends, …) using different routes, but would like to know *the optimal route*, that should take *you* the less time possible? *pygohome* uses your recorded GPS tracks to build a route network of *your* world with estimation on how long *you* need to get from A to B using the mean of transport of your choice.
+You walk/ride/drive frequently between known locations (home, work, school, shops, family, friends, …) using different routes, but would like to know *the optimal route*, that should take *you* the least time possible? *pygohome* uses your recorded GPS tracks to build a route network of *your* world with estimation on how long *you* need to get from A to B using the mean of transport of your choice.
 
 ## How it works
 
