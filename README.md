@@ -1,3 +1,5 @@
+[![Tests](https://github.com/eumiro/pygohome/workflows/Tests/badge.svg)](https://github.com/eumiro/pygohome/actions?workflow=Tests)
+
 # pygohome
 
 ## Python, Let's Go Home. Quickly.
