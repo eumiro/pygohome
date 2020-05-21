@@ -30,7 +30,7 @@ You can choose anywhere between “I'm feeling lucky” (i.e. Sunday 7am, sunny)
 
 ## Development Quickstart
 
-*pygohome* uses [nox](https://nox.thea.codes/en/stable/) for test automation and [poetry](https://python-poetry.org/) for dependency management and package creation. To contribute, clone this repository and create a venv containing the necessary tools by creating a virtualenv or venv with nox and poetry installed:
+*pygohome* uses [nox](https://nox.thea.codes/en/stable/) for test automation and [poetry](https://python-poetry.org/) for dependency management and package creation. To contribute, clone this repository and create a virtual environment containing the necessary tools:
 
     $ python -m venv pygohome              # create a venv at ./pygohome
     $ pygohome/bin/pip install nox poetry  # install the development dependencies
