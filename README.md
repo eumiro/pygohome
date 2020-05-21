@@ -30,23 +30,24 @@ You can choose anywhere between “I'm feeling lucky” (i.e. Sunday 7am, sunny)
 
 ## Development Quickstart
 
-*pygohome* uses [nox](https://nox.thea.codes/en/stable/) for test automation and [poetry](https://python-poetry.org/) for dependency management and package creation. To contribute, clone this repository and create a virtual environment containing the necessary tools:
+The development infrastructure of *pygohome* was heavily inspired by [Hypermodern Python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/) by Claudio Jolowicz. It uses [nox](https://nox.thea.codes/en/stable/) for test automation and [poetry](https://python-poetry.org/) for dependency management and package creation. To contribute, clone this repository and create a virtual environment containing the necessary tools:
 
     $ python -m venv pygohome              # create a venv at ./pygohome
     $ pygohome/bin/pip install nox poetry  # install the development dependencies
     $ pygohome/bin/nox                     # run all the tests and checks
 
-If you want to run tests directly you can use the virtual environments that nox creates directly - they are all located in `.nox`. E.g. if you want to just run one test directly in the Python3.8 test environment you can run:
+To list all nox sessions:
 
-```text
-$ .nox/tests-3-8/bin/pytest -k test_there_is_world
+    $ nox -l
+    * tests-3.8 -> Run the test suite.
+    * tests-3.7 -> Run the test suite.
+    * lint-3.8 -> Lint using flake8.
+    * lint-3.7 -> Lint using flake8.
+    - black -> Run black code formatter.
+    * safety -> Scan dependencies for insecure packages.
+    * mypy-3.8 -> Type-check using mypy.
+    * mypy-3.7 -> Type-check using mypy.
 
-============================== test session starts ==============================
-platform linux -- Python 3.8.2, pytest-5.4.2, py-1.8.1, pluggy-0.13.1
-rootdir: [...]/pygohome
-plugins: cov-2.8.1, mock-3.1.0
-collected 2 items / 1 deselected / 1 selected
+To run only the test suite in Python 3.8, run
 
-tests/test_world.py .                                                      [100%]
-======================== 1 passed, 1 deselected in 0.02s ========================
-```
+    $ nox -s tests-3.8
