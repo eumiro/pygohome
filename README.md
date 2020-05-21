@@ -27,3 +27,26 @@ It will build a route network with your nodes (named POIs and identified interse
 ### You can find the fastest route from A to B
 
 You can choose anywhere between “I'm feeling lucky” (i.e. Sunday 7am, sunny) and “I'd like to make sure I get there in time” (i.e. Friday 5pm, blizzard).
+
+## Development Quickstart
+
+*pygohome* uses [nox](https://nox.thea.codes/en/stable/) for test automation and [poetry](https://python-poetry.org/) for dependency management and package creation. To contribute, clone this repository and create a virtual environment containing the necessary tools:
+
+    $ python -m venv pygohome              # create a venv at ./pygohome
+    $ pygohome/bin/pip install nox poetry  # install the development dependencies
+    $ pygohome/bin/nox                     # run all the tests and checks
+
+If you want to run tests directly you can use the virtual environments that nox creates directly - they are all located in `.nox`. E.g. if you want to just run one test directly in the Python3.8 test environment you can run:
+
+```text
+$ .nox/tests-3-8/bin/pytest -k test_there_is_world
+
+============================== test session starts ==============================
+platform linux -- Python 3.8.2, pytest-5.4.2, py-1.8.1, pluggy-0.13.1
+rootdir: [...]/pygohome
+plugins: cov-2.8.1, mock-3.1.0
+collected 2 items / 1 deselected / 1 selected
+
+tests/test_world.py .                                                      [100%]
+======================== 1 passed, 1 deselected in 0.02s ========================
+```
