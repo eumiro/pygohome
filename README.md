@@ -51,3 +51,18 @@ To list all nox sessions:
 To run only the test suite in Python 3.8, run
 
     $ nox -s tests-3.8
+    
+If you want to run tests directly you can use the virtual environments that nox creates directly - they are all located in `.nox`. E.g. if you want to just run one test directly in the Python3.8 test environment you can run:
+
+```text
+$ .nox/tests-3-8/bin/pytest -k test_there_is_world
+
+============================== test session starts ==============================
+platform linux -- Python 3.8.2, pytest-5.4.2, py-1.8.1, pluggy-0.13.1
+rootdir: [...]/pygohome
+plugins: cov-2.8.1, mock-3.1.0
+collected 2 items / 1 deselected / 1 selected
+
+tests/test_world.py .                                                      [100%]
+======================== 1 passed, 1 deselected in 0.02s ========================
+```
