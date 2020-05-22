@@ -88,4 +88,27 @@ def test_prepare_tracks_too_far_away_fails() -> None:
 def test_prepare_waypoints_empty_raises() -> None:
     """Empty list returns an empty DataFrame."""
     with pytest.raises(processor.EmptyDataError):
-        processor.prepare_tracks([])
+        processor.prepare_waypoints([])
+
+
+def test_prepare_waypoints_two_ok() -> None:
+    """Two waypoints are ok."""
+    waypoints = [("station", 48.99420, 8.4003), ("castle", 49.0134, 8.4044)]
+    result = processor.prepare_waypoints(waypoints)
+    expected = {
+        "dfr": pd.DataFrame(
+            {"utm_x": [456131, 456448], "utm_y": [5426984, 5429116]},
+            index=pd.Index(["station", "castle"], name="name"),
+        ),
+        "utm_zone": 32,
+        "utm_ch": "U",
+    }
+    pd.testing.assert_frame_equal(result.pop("dfr"), expected.pop("dfr"))
+    assert result == expected
+
+
+def test_prepare_waypoints_too_far_away_fails() -> None:
+    """Two records too far away is bad."""
+    waypoints = [("east", 49.00, 8.40), ("west", 49.00, -8.40)]
+    with pytest.raises(processor.RegionTooLargeError):
+        processor.prepare_waypoints(waypoints)
