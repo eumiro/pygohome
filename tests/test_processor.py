@@ -83,3 +83,9 @@ def test_prepare_tracks_too_far_away_fails() -> None:
     ]
     with pytest.raises(processor.RegionTooLargeError):
         processor.prepare_tracks(trackpoints)
+
+
+def test_prepare_waypoints_empty_raises() -> None:
+    """Empty list returns an empty DataFrame."""
+    with pytest.raises(processor.EmptyDataError):
+        processor.prepare_tracks([])
