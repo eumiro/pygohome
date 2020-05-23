@@ -5,33 +5,44 @@ It consists of tracks, points of interest, intersections,
 and a graph that will tell you how to get from A to B.
 """
 
-from typing import List, Tuple
+import datetime as dt
+from typing import Dict, List, Tuple
+
+import networkx as nx
+import numpy as np
 
 from pygohome.convert import extract_gpx
+from pygohome.processor import (
+    build_graph,
+    find_encounters,
+    prepare_tracks,
+    prepare_waypoints,
+    RegionTooLargeError,
+)
 
 
 class World:
     """Your world."""
 
-    _trackpoints: List[Tuple]
-    _waypoints: List[Tuple]
-    _checked: bool
+    trackpoints: List[Tuple[dt.datetime, float, float]]
+    waypoints: List[Tuple[str, float, float]]
+    graph: nx.DiGraph
 
     def __init__(self) -> None:
         """Init an empty world."""
-        self._trackpoints = []
-        self._waypoints = []
-        self._checked = False
+        self.trackpoints = []
+        self.waypoints = []
+        self.graph = None
 
     def add_trackpoints(self, trackpoints: List) -> None:
         """Add a list of trackpoints."""
-        self._trackpoints.extend(trackpoints)
-        self._checked = False
+        self.trackpoints.extend(trackpoints)
+        self.graph = None
 
     def add_waypoints(self, waypoints: List) -> None:
         """Add a list of waypoints."""
-        self._waypoints.extend(waypoints)
-        self._checked = False
+        self.waypoints.extend(waypoints)
+        self.graph = None
 
     def add_gpx(self, track_xml: str) -> None:
         """Add a GPX XML file content."""
@@ -40,3 +51,48 @@ class World:
             self.add_trackpoints(trackpoints)
         if waypoints:
             self.add_waypoints(waypoints)
+
+    def _ensure_graph(self) -> None:
+        """Rebuild graph if needed."""
+        if self.graph is None:
+            res_trackpoints = prepare_tracks(self.trackpoints)
+            res_waypoints = prepare_waypoints(self.waypoints)
+            if res_trackpoints["utm_zone"] != res_waypoints["utm_zone"]:
+                raise RegionTooLargeError(
+                    f"Trackpoints ({res_trackpoints['utm_zone']!r}) and "
+                    f"waypoints ({res_waypoints['utm_zone']!r}) "
+                    f"in different UTM_zones."
+                )
+            dfr_encounters = find_encounters(
+                res_trackpoints["dfr"], res_waypoints["dfr"]
+            )
+            self.graph = build_graph(dfr_encounters, res_waypoints["dfr"])
+
+    def fastest_path(self, src: str, dst: str, quantile: float = 0.8) -> nx.Graph:
+        """Find the shortest path between src and dst with quantile probability."""
+        self._ensure_graph()
+        path = nx.path_graph(
+            nx.dijkstra_path(
+                self.graph, src, dst, lambda u, v, a: np.quantile(a["secs"], quantile)
+            )
+        )
+        return path
+
+    def single_source_periods(self, src: str, quantile: float = 0.8) -> Dict:
+        """Return periods to every other waypoint from the src."""
+        self._ensure_graph()
+        all_dsts_periods = nx.single_source_dijkstra(
+            self.graph,
+            src,
+            weight=lambda u, v, a: int(np.quantile(a["secs"], quantile)),
+        )[0]
+        periods: Dict = {}
+        for dst, period in all_dsts_periods.items():
+            if isinstance(dst, tuple):
+                # if dst is a tuple(here, src, dst), it is at a lights intersection
+                # we want only to get to any node within this intersection
+                # result: the shortest period to get to any node near here
+                periods[dst[0]] = min(period, periods.get(dst[0], 86400))
+            else:
+                periods[dst] = period
+        return periods
