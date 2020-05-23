@@ -93,6 +93,8 @@ def test_prepare_waypoints_two_ok() -> None:
     result = processor.prepare_waypoints(waypoints)
     expected = pd.DataFrame(
         {
+            "latitude": [48.99420, 49.0134],
+            "longitude": [8.4003, 8.4044],
             "utm_x": [456131, 456448],
             "utm_y": [5426984, 5429116],
             "utm_zone": 32,

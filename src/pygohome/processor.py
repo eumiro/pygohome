@@ -62,7 +62,7 @@ def prepare_waypoints(waypoints: List[Tuple[str, float, float]]) -> Dict:
     dfr = pd.DataFrame.from_records(
         waypoints, columns=("name", "latitude", "longitude")
     ).set_index("name")
-    return latlon_to_utm(dfr)
+    return pd.concat([dfr, latlon_to_utm(dfr)], axis=1)
 
 
 def latlon_to_utm(latlon: pd.DataFrame) -> pd.DataFrame:
