@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<gpx version="1.1" creator="JOSM GPX export" xmlns="http://www.topografix.com/GPX/1/1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <wpt lat="48.99420" lon="8.4003">
+      <name>station</name>
+  </wpt>
+  <wpt lat="49.0134" lon="8.4044">
+      <name>castle</name>
+  </wpt>
+</gpx>
