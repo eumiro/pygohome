@@ -15,7 +15,7 @@ from pygohome.convert import extract_gpx
 from pygohome.processor import (
     build_graph,
     find_encounters,
-    prepare_tracks,
+    prepare_trackpoints,
     prepare_waypoints,
     RegionTooLargeError,
 )
@@ -55,18 +55,16 @@ class World:
     def _ensure_graph(self) -> None:
         """Rebuild graph if needed."""
         if self.graph is None:
-            res_trackpoints = prepare_tracks(self.trackpoints)
-            res_waypoints = prepare_waypoints(self.waypoints)
-            if res_trackpoints["utm_zone"] != res_waypoints["utm_zone"]:
+            dfr_trackpoints = prepare_trackpoints(self.trackpoints)
+            dfr_waypoints = prepare_waypoints(self.waypoints)
+            if set(dfr_trackpoints["utm_zone"]) != set(dfr_waypoints["utm_zone"]):
                 raise RegionTooLargeError(
-                    f"Trackpoints ({res_trackpoints['utm_zone']!r}) and "
-                    f"waypoints ({res_waypoints['utm_zone']!r}) "
+                    f"Trackpoints ({dfr_trackpoints['utm_zone']!r}) and "
+                    f"waypoints ({dfr_waypoints['utm_zone']!r}) "
                     f"in different UTM_zones."
                 )
-            dfr_encounters = find_encounters(
-                res_trackpoints["dfr"], res_waypoints["dfr"]
-            )
-            self.graph = build_graph(dfr_encounters, res_waypoints["dfr"])
+            dfr_encounters = find_encounters(dfr_trackpoints, dfr_waypoints)
+            self.graph = build_graph(dfr_encounters, dfr_waypoints)
 
     def fastest_path(self, src: str, dst: str, quantile: float = 0.8) -> nx.Graph:
         """Find the shortest path between src and dst with quantile probability."""
