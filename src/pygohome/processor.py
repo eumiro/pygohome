@@ -182,5 +182,5 @@ def build_graph(
     for node in graph.nodes:
         if isinstance(node, tuple):
             here, src, dst = node
-            graph.add_node(here, **graph.nodes[src if here == src else dst])
+            graph.add_node(node, **graph.nodes[src if here == src else dst])
     return graph
