@@ -1,4 +1,5 @@
 [![Tests](https://github.com/eumiro/pygohome/workflows/Tests/badge.svg)](https://github.com/eumiro/pygohome/actions?workflow=Tests)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/eumiro/pygohome/master?filepath=notebooks%2Fpygohome.ipynb)
 
 # pygohome
 
@@ -51,7 +52,7 @@ To list all nox sessions:
 To run only the test suite in Python 3.8, run
 
     $ nox -s tests-3.8
-    
+
 If you want to run tests directly you can use the virtual environments that nox creates directly - they are all located in `.nox`. E.g. if you want to just run one test directly in the Python3.8 test environment you can run:
 
 ```text
