@@ -6,6 +6,7 @@ and a graph that will tell you how to get from A to B.
 """
 
 import datetime as dt
+import math
 from typing import Dict, List, Tuple
 
 import networkx as nx
@@ -90,7 +91,7 @@ class World:
                 # if dst is a tuple(here, src, dst), it is at a lights intersection
                 # we want only to get to any node within this intersection
                 # result: the shortest period to get to any node near here
-                periods[dst[0]] = min(period, periods.get(dst[0], 86400))
+                periods[dst[0]] = min(period, periods.get(dst[0], math.inf))
             else:
                 periods[dst] = period
         return periods
