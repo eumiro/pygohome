@@ -1,5 +1,5 @@
 .. image:: https://mybinder.org/badge_logo.svg
-  :target: https://mybinder.org/v2/gh/eumiro/pygohome/master?filepath=notebooks%2Fpygohome.ipynb
+  :target: https://mybinder.org/v2/gh/eumiro/pygohome/main?filepath=notebooks%2Fpygohome.ipynb
 
 .. image:: https://github.com/eumiro/pygohome/workflows/CI/badge.svg
   :target: https://github.com/eumiro/pygohome/actions?query=workflow%3ACI
