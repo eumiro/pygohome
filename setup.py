@@ -25,15 +25,15 @@ CLASSIFIERS = [
     "Topic :: Scientific/Engineering :: GIS",
 ]
 INSTALL_REQUIRES = [
-    "gpxpy",
-    "ipyleaflet",
-    "ipywidgets",
-    "networkx",
-    "notebook",
-    "numpy",
-    "pandas",
-    "scipy",
-    "utm",
+    "gpxpy >= 1.4.2",
+    "ipyleaflet >= 0.13.3",
+    "ipywidgets >= 7.5.1",
+    "networkx >= 2.5",
+    "notebook >= 6.1.5",
+    "numpy >= 1.19.4",
+    "pandas >= 1.1.5",
+    "scipy >= 1.5.4",
+    "utm >= 0.7.0",
 ]
 
 # --+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----
