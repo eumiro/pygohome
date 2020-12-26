@@ -14,11 +14,11 @@ import numpy as np
 
 from pygohome.convert import extract_gpx
 from pygohome.processor import (
+    RegionTooLargeError,
     build_graph,
     find_encounters,
     prepare_trackpoints,
     prepare_waypoints,
-    RegionTooLargeError,
 )
 
 
@@ -58,7 +58,9 @@ class World:
         if self.graph is None:
             dfr_trackpoints = prepare_trackpoints(self.trackpoints)
             dfr_waypoints = prepare_waypoints(self.waypoints)
-            if set(dfr_trackpoints["utm_zone"]) != set(dfr_waypoints["utm_zone"]):
+            if set(dfr_trackpoints["utm_zone"]) != set(
+                dfr_waypoints["utm_zone"]
+            ):
                 raise RegionTooLargeError(
                     f"Trackpoints ({dfr_trackpoints['utm_zone']!r}) and "
                     f"waypoints ({dfr_waypoints['utm_zone']!r}) "
@@ -67,12 +69,17 @@ class World:
             dfr_encounters = find_encounters(dfr_trackpoints, dfr_waypoints)
             self.graph = build_graph(dfr_encounters, dfr_waypoints)
 
-    def fastest_path(self, src: str, dst: str, quantile: float = 0.8) -> nx.Graph:
-        """Find the shortest path between src and dst with quantile probability."""
+    def fastest_path(
+        self, src: str, dst: str, quantile: float = 0.8
+    ) -> nx.Graph:
+        """Find the shortest path between src and dst with quantile prob."""
         self._ensure_graph()
         path = nx.path_graph(
             nx.dijkstra_path(
-                self.graph, src, dst, lambda u, v, a: np.quantile(a["secs"], quantile)
+                self.graph,
+                src,
+                dst,
+                lambda u, v, a: np.quantile(a["secs"], quantile),
             )
         )
         return path
@@ -88,7 +95,8 @@ class World:
         periods: Dict = {}
         for dst, period in all_dsts_periods.items():
             if isinstance(dst, tuple):
-                # if dst is a tuple(here, src, dst), it is at a lights intersection
+                # if dst is a tuple(here, src, dst), it is at a lights
+                # intersection
                 # we want only to get to any node within this intersection
                 # result: the shortest period to get to any node near here
                 periods[dst[0]] = min(period, periods.get(dst[0], math.inf))

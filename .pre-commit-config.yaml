@@ -23,6 +23,9 @@ repos:
     rev: 5.6.4
     hooks:
     -   id: isort
+        args:
+        - -m3
+        - --tc
 -   repo: https://github.com/PyCQA/bandit
     rev: 1.7.0
     hooks:

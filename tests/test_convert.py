@@ -41,10 +41,14 @@ def test_gpx_two_points() -> None:
     content = Path("tests/testdata/osmand_1seg_2pt.gpx").read_text()
     trackpoints, waypoints = conv.extract_gpx(content)
     assert len(trackpoints) == 2
-    assert trackpoints[0][0] == dt.datetime(2020, 5, 1, 0, 0, 0, tzinfo=dt.timezone.utc)
+    assert trackpoints[0][0] == dt.datetime(
+        2020, 5, 1, 0, 0, 0, tzinfo=dt.timezone.utc
+    )
     assert trackpoints[0][1] == pytest.approx(49.0)
     assert trackpoints[0][2] == pytest.approx(8.4)
-    assert trackpoints[1][0] == dt.datetime(2020, 5, 1, 0, 0, 1, tzinfo=dt.timezone.utc)
+    assert trackpoints[1][0] == dt.datetime(
+        2020, 5, 1, 0, 0, 1, tzinfo=dt.timezone.utc
+    )
     assert trackpoints[1][1] == pytest.approx(49.01)
     assert trackpoints[1][2] == pytest.approx(8.41)
     assert waypoints == []

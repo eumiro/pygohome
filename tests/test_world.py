@@ -51,7 +51,9 @@ def test_one_waypoint() -> None:
 def test_two_waypoints() -> None:
     """Fresh world with two waypoints."""
     world = World()
-    world.add_waypoints([("station", 48.99420, 8.4003), ("castle", 49.0134, 8.4044)])
+    world.add_waypoints(
+        [("station", 48.99420, 8.4003), ("castle", 49.0134, 8.4044)]
+    )
     assert len(world.waypoints) == 2
     assert world.graph is None
 
@@ -68,12 +70,26 @@ def test_gpx_2waypoints() -> None:
 def test_waypoints_far_from_trackpoints() -> None:
     """Waypoints and trackpoints are too far away from each other."""
     world = World()
-    world.add_waypoints([("alice", 49.0000, -8.4000), ("bob", 49.0010, -8.4010)])
+    world.add_waypoints(
+        [("alice", 49.0000, -8.4000), ("bob", 49.0010, -8.4010)]
+    )
     world.add_trackpoints(
         [
-            (dt.datetime(2020, 5, 1, 0, 0, 0, 0, dt.timezone.utc), 49.0001, 8.4001),
-            (dt.datetime(2020, 5, 1, 0, 0, 3, 0, dt.timezone.utc), 49.0005, 8.4005),
-            (dt.datetime(2020, 5, 1, 0, 0, 6, 0, dt.timezone.utc), 49.0009, 8.4009),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 0, 0, dt.timezone.utc),
+                49.0001,
+                8.4001,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 3, 0, dt.timezone.utc),
+                49.0005,
+                8.4005,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 6, 0, dt.timezone.utc),
+                49.0009,
+                8.4009,
+            ),
         ]
     )
     with pytest.raises(RegionTooLargeError):
@@ -87,9 +103,21 @@ def world1() -> World:
     world.add_waypoints([("alice", 49.0000, 8.4000), ("bob", 49.0010, 8.4010)])
     world.add_trackpoints(
         [
-            (dt.datetime(2020, 5, 1, 0, 0, 0, 0, dt.timezone.utc), 49.0001, 8.4001),
-            (dt.datetime(2020, 5, 1, 0, 0, 3, 0, dt.timezone.utc), 49.0005, 8.4005),
-            (dt.datetime(2020, 5, 1, 0, 0, 6, 0, dt.timezone.utc), 49.0009, 8.4009),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 0, 0, dt.timezone.utc),
+                49.0001,
+                8.4001,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 3, 0, dt.timezone.utc),
+                49.0005,
+                8.4005,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 6, 0, dt.timezone.utc),
+                49.0009,
+                8.4009,
+            ),
         ]
     )
     return world
@@ -97,7 +125,7 @@ def world1() -> World:
 
 @pytest.fixture
 def world2() -> World:
-    """Create a simple world with two waypoints and a slow intersection in between."""
+    """Create a simple world with 2 wpts and a slow intersection in between."""
     world = World()
     world.add_waypoints(
         [
@@ -108,14 +136,46 @@ def world2() -> World:
     )
     world.add_trackpoints(
         [
-            (dt.datetime(2020, 5, 1, 0, 0, 0, 0, dt.timezone.utc), 49.00010, 8.40010),
-            (dt.datetime(2020, 5, 1, 0, 0, 3, 0, dt.timezone.utc), 49.00049, 8.40049),
-            (dt.datetime(2020, 5, 1, 0, 0, 13, 0, dt.timezone.utc), 49.00050, 8.40050),
-            (dt.datetime(2020, 5, 1, 0, 0, 23, 0, dt.timezone.utc), 49.00050, 8.40050),
-            (dt.datetime(2020, 5, 1, 0, 0, 33, 0, dt.timezone.utc), 49.00050, 8.40050),
-            (dt.datetime(2020, 5, 1, 0, 0, 43, 0, dt.timezone.utc), 49.00050, 8.40050),
-            (dt.datetime(2020, 5, 1, 0, 0, 53, 0, dt.timezone.utc), 49.00051, 8.40051),
-            (dt.datetime(2020, 5, 1, 0, 0, 56, 0, dt.timezone.utc), 49.00090, 8.40090),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 0, 0, dt.timezone.utc),
+                49.00010,
+                8.40010,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 3, 0, dt.timezone.utc),
+                49.00049,
+                8.40049,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 13, 0, dt.timezone.utc),
+                49.00050,
+                8.40050,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 23, 0, dt.timezone.utc),
+                49.00050,
+                8.40050,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 33, 0, dt.timezone.utc),
+                49.00050,
+                8.40050,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 43, 0, dt.timezone.utc),
+                49.00050,
+                8.40050,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 53, 0, dt.timezone.utc),
+                49.00051,
+                8.40051,
+            ),
+            (
+                dt.datetime(2020, 5, 1, 0, 0, 56, 0, dt.timezone.utc),
+                49.00090,
+                8.40090,
+            ),
         ]
     )
     return world

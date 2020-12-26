@@ -16,7 +16,9 @@ def test_prepare_trackpoints_empty_raises() -> None:
 
 def test_prepare_trackpoints_one_row_ok() -> None:
     """One record returns good data."""
-    trackpoints = [(dt.datetime(2020, 5, 1, tzinfo=dt.timezone.utc), 49.00, 8.40)]
+    trackpoints = [
+        (dt.datetime(2020, 5, 1, tzinfo=dt.timezone.utc), 49.00, 8.40)
+    ]
     result = processor.prepare_trackpoints(trackpoints)
     expected = pd.DataFrame(
         {
