@@ -11,7 +11,9 @@ class InvalidFileError(Exception):
     pass
 
 
-def extract_gpx(track_xml: str, max_hdop: int = 16) -> Tuple[List[Any], List[Any]]:
+def extract_gpx(
+    track_xml: str, max_hdop: int = 16
+) -> Tuple[List[Any], List[Any]]:
     """Convert GPX XML string to a list of trackpoints."""
     trackpoints: List[Tuple] = []
     waypoints: List[Tuple] = []
@@ -23,7 +25,9 @@ def extract_gpx(track_xml: str, max_hdop: int = 16) -> Tuple[List[Any], List[Any
         for segment in track.segments:
             for point in segment.points:
                 if point.horizontal_dilution <= max_hdop:
-                    trackpoints.append((point.time, point.latitude, point.longitude))
+                    trackpoints.append(
+                        (point.time, point.latitude, point.longitude)
+                    )
     for num, waypoint in enumerate(gpx.waypoints, 1):
         name = waypoint.name or str(num)
         waypoints.append((name, waypoint.latitude, waypoint.longitude))

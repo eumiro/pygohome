@@ -45,7 +45,12 @@ def gohome() -> lf.Map:  # pragma: no cover
     load_btn = wd.Button(description="Load GPX files")
     load_btn.on_click(action_load)
     load_progress = wd.IntProgress(
-        value=0, min=0, max=0, step=1, bar_style="", orientation="horizontal",
+        value=0,
+        min=0,
+        max=0,
+        step=1,
+        bar_style="",
+        orientation="horizontal",
     )
 
     load_box = wd.VBox(children=[load_list, load_btn, load_progress])
@@ -75,7 +80,8 @@ def gohome() -> lf.Map:  # pragma: no cover
         )
         nodes = world.graph.nodes
         route.locations = [
-            (nodes[node]["latitude"], nodes[node]["longitude"]) for node in fp.nodes
+            (nodes[node]["latitude"], nodes[node]["longitude"])
+            for node in fp.nodes
         ]
         m.center = (
             nodes[route_src.value]["latitude"],
@@ -88,10 +94,12 @@ def gohome() -> lf.Map:  # pragma: no cover
             period_min += min(secs)
             period_max += max(secs)
 
-        route_result.value = "{}:{:02d} (min: {}:{:02d}, max: {}:{:02d})".format(
-            *divmod(int(period_exp), 60),
-            *divmod(int(period_min), 60),
-            *divmod(int(period_max), 60)
+        route_result.value = (
+            "{}:{:02d} (min: {}:{:02d}, max: {}:{:02d})".format(
+                *divmod(int(period_exp), 60),
+                *divmod(int(period_min), 60),
+                *divmod(int(period_max), 60)
+            )
         )
 
     route_btn.on_click(action_route)

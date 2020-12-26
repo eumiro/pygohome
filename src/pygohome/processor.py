@@ -6,8 +6,8 @@ from typing import Dict, List, Tuple
 import networkx as nx
 import numpy as np
 import pandas as pd
-from scipy.spatial import cKDTree
 import utm
+from scipy.spatial import cKDTree
 
 
 class ProcessError(Exception):
@@ -28,7 +28,9 @@ class EmptyDataError(ProcessError):
     pass
 
 
-def prepare_trackpoints(trackpoints: List[Tuple[dt.datetime, float, float]]) -> Dict:
+def prepare_trackpoints(
+    trackpoints: List[Tuple[dt.datetime, float, float]]
+) -> Dict:
     """Prepare the trackpoints to DataFrame."""
     # create 3 Series sorted by timestamp
     if not trackpoints:
@@ -84,17 +86,21 @@ def latlon_to_utm(latlon: pd.DataFrame) -> pd.DataFrame:
     if 400000 < np.abs(dfr["utm_x"] - 500000).max():
         raise RegionTooLargeError(
             f"Region too large, does not fit into a single UTM zone: "
-            f"lat {latlon['latitude'].min():.2f}…{latlon['latitude'].max():.2f}, "
-            f"lon {latlon['longitude'].min():.2f}…{latlon['latitude'].max():.2f}."
+            f"lat {latlon['latitude'].min():.2f}…"
+            f"{latlon['latitude'].max():.2f}, "
+            f"lon {latlon['longitude'].min():.2f}…"
+            f"{latlon['latitude'].max():.2f}."
         )
     return dfr
 
 
 def find_encounters(
-    dfr_trackpoints: pd.DataFrame, dfr_waypoints: pd.DataFrame, max_dist: int = 30
+    dfr_trackpoints: pd.DataFrame,
+    dfr_waypoints: pd.DataFrame,
+    max_dist: int = 30,
 ) -> pd.DataFrame:
     """Find encounters of tracks near waypoints."""
-    # Build a KDTree of all nodes and check if trackpoints are closer than 30 meters
+    # Build a KDTree of all nodes and check if trackpoints are <30 meters
     kdtree = cKDTree(dfr_waypoints[["utm_x", "utm_y"]])
     nodes = kdtree.query(
         dfr_trackpoints[["utm_x", "utm_y"]], distance_upper_bound=max_dist
@@ -140,10 +146,13 @@ def build_graph(
         }
     )
 
-    is_poi = ~dfr.join(dfr_waypoints, on="curr_node")["curr_node"].str.isdigit()
+    is_poi = ~dfr.join(dfr_waypoints, on="curr_node")[
+        "curr_node"
+    ].str.isdigit()
 
     # an intersection is "slow" (traffic lights)
-    # if at least 25% of tracks spend more than 20 seconds within 30 meters of its node
+    # if at least 25% of tracks spend
+    # more than 20 seconds within 30 meters of its node
     is_slow = dfr.groupby("curr_node")["curr_secs"].transform(
         lambda x: x.quantile(0.75) > 20
     )
@@ -158,14 +167,20 @@ def build_graph(
     )
     dfr.loc[~is_poi & ~is_slow, "curr_secs"] = 0
 
-    grp_simple = dfr.query("succ_node != -1").groupby(["curr_node", "succ_node"])
+    grp_simple = dfr.query("succ_node != -1").groupby(
+        ["curr_node", "succ_node"]
+    )
 
     # build the graph
     graph = nx.DiGraph()
     graph.add_nodes_from(dfr_waypoints.to_dict("index").items())
     graph.add_edges_from(
         (
-            ((curr, pred, curr), (curr, curr, succ), {"secs": sorted(grp["curr_secs"])})
+            (
+                (curr, pred, curr),
+                (curr, curr, succ),
+                {"secs": sorted(grp["curr_secs"])},
+            )
             for (pred, curr, succ), grp in grp_slow
         )
     )
