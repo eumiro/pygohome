@@ -9,5 +9,5 @@ __doc__ = __description__ + " <" + __uri__ + ">"
 __author__ = "Miroslav Šedivý"
 __email__ = "eumiro@gmail.com"
 
-__license__ = "BSD-3"
+__license__ = "MIT"
 __copyright__ = "Copyright (c) 2020 Miroslav Šedivý"
