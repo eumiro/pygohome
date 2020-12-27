@@ -45,4 +45,3 @@ You can find the fastest route from A to B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can choose anywhere between “I'm feeling lucky” (i.e. Sunday 7am, sunny) and “I'd like to make sure I get there in time” (i.e. Friday 5pm, blizzard).
-

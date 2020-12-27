@@ -98,7 +98,7 @@ def gohome() -> lf.Map:  # pragma: no cover
             "{}:{:02d} (min: {}:{:02d}, max: {}:{:02d})".format(
                 *divmod(int(period_exp), 60),
                 *divmod(int(period_min), 60),
-                *divmod(int(period_max), 60)
+                *divmod(int(period_max), 60),
             )
         )
 
